@@ -7,8 +7,12 @@ class CustomLinear(nn.Module):
 
     def __init__(self, in_features, out_features):
         super().__init__()
-        self.weight = nn.Parameter(torch.randn(out_features, in_features), requires_grad=True)
-        self.bias = nn.Parameter(torch.randn(out_features), requires_grad=True)
+        self.weight = nn.Parameter(torch.empty(out_features, in_features), requires_grad=True)
+        self.bias = nn.Parameter(torch.empty(out_features), requires_grad=True)
+
+        nn.init.kaiming_uniform_(self.weight,nonlinearity='relu')
+        bound = 1 / math.sqrt(in_features)
+        nn.init.uniform_(self.bias, -bound, bound)
         
 
     def forward(self, x):
