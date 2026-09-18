@@ -6,5 +6,5 @@ def norm_gate(X, W, threshold):
     W = np.array(W, dtype=np.float64)
     Z = X @ W
     l2 = np.linalg.norm(Z, axis=1, ord=2, keepdims=True)
-    condi = l2 >= threshold
-    return np.where(condi, Z, 0.0)
+    condi = l2 < threshold
+    return np.where(condi, 0.0, Z)
